@@ -2,6 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/3m3q2ads2y43bh9o/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/deliver-net-sdk/branch/master)
 [![NuGet](https://img.shields.io/nuget/v/KenticoCloud.Delivery.svg)](https://www.nuget.org/packages/KenticoCloud.Delivery)
+[![NuGet](https://img.shields.io/nuget/dt/kenticocloud.delivery.svg)](https://www.nuget.org/packages/KenticoCloud.Delivery)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 
 ## Summary
@@ -14,14 +15,25 @@ To retrieve content from a Kentico Cloud project via the Delivery API, you first
 
 ## Using the DeliveryClient
 
-The `DeliveryClient` class is the main class of the SDK. Using this class, you can retrieve content from your Kentico Cloud projects. To create an instance of the class, you need to provide the ID of your project. See our documentation on how to [get the project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id).
+The `DeliveryClient` class is the main class of the SDK. Using this class, you can retrieve content from your Kentico Cloud projects.
+
+To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id).
 
 ```csharp
 // Initializes an instance of the DeliveryClient client
 DeliveryClient client = new DeliveryClient("975bf280-fd91-488c-994c-2f04416e5ee3");
 ```
 
-Once you create a `DeliveryClient`, you can start querying your project repository by calling methods on the instance. See [Basic querying](#basic-querying) for details.
+You can also provide the project ID and other parameters by passing the [`DeliveryOptions`](https://github.com/Kentico/delivery-sdk-net/blob/master/KenticoCloud.Delivery/Configuration/DeliveryOptions%20.cs) object to the class constructor. The `DeliveryOptions` object can be used to set the following parameters:
+
+* `PreviewApiKey` – sets the Delivery Preview API key.
+* `ProjectId` – sets the project identifier.
+* `UsePreviewApi` – determines whether to use the Delivery Preview API.
+* `WaitForLoadingNewContent` – makes the client instance wait while fetching updated content, useful when acting upon [webhook calls](https://developer.kenticocloud.com/docs/webhooks#section-requesting-new-content).
+
+For advanced configuration options using Dependency Injection and ASP.NET Core Configuration API, see the SDK's [wiki](https://github.com/Kentico/delivery-sdk-net/wiki/Using-the-ASP.NET-Core-Configuration-API-and-DI-to-Instantiate-the-DeliveryClient).
+
+Once you create a `DeliveryClient`, you can start querying your project repository by calling methods on the client instance. See [Basic querying](#basic-querying) for details.
 
 ### Filtering retrieved data
 
@@ -45,7 +57,7 @@ To retrieve unpublished content, you need to create a `DeliveryClient` with both
 ```csharp
 // Note: Within a single project, we recommend that you work with only
 // either the production or preview Delivery API, not both.
-DeliverClient client = new DeliveryClient("YOUR_PROJECT_ID", "YOUR_PREVIEW_API_KEY");
+DeliveryClient client = new DeliveryClient("YOUR_PROJECT_ID", "YOUR_PREVIEW_API_KEY");
 ```
 
 For more details, see [Previewing unpublished content using the Delivery API](https://developer.kenticocloud.com/docs/preview-content-via-api).
@@ -92,7 +104,7 @@ When retrieving a list of content items, you get an instance of the `DeliveryIte
   * `Skip`: requested number of content items to skip
   * `Limit`: requested page size
   * `Count`: the total number of retrieved content items
-  * `NexPageUrl`: the URL of the next page
+  * `NextPageUrl`: the URL of the next page
 * A list of the requested content items
 
 ### ContentItem structure
@@ -187,13 +199,12 @@ For more developer resources, visit the Kentico Cloud Developer Hub at <https://
 
 Prerequisites:
 
-* [.NET Core 1.0 SDK](https://www.microsoft.com/net/download/core#/sdk)
-* [.NET Core 1.0.x Runtime](https://www.microsoft.com/net/download/core#/runtime)
+**Required:**
+[.NET Core SDK](https://www.microsoft.com/net/download/core).
 
-You can use [Visual Studio Code](https://code.visualstudio.com/) to build the project. If you want the full Visual Studio experience, use the following toolings:
-
-* Visual Studio 2015 (with Update 3)
-* [SDK 2016/09/13](https://github.com/dotnet/core/blob/master/release-notes/download-archive.md)
+Optional:
+* [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
+* or [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Feedback & Contributing
 
@@ -202,6 +213,8 @@ Check out the [contributing](https://github.com/Kentico/delivery-sdk-net/blob/ma
 ### Wall of Fame
 We would like to express our thanks to the following people who contributed and made the project possible:
 
-- [Jarosław Jarnot](https://github.com/jjarnot-vimanet) - [Vimanet](http://vimanet.com/) 
+- [Jarosław Jarnot](https://github.com/jjarnot-vimanet) - [Vimanet](http://vimanet.com) 
+- [Varinder Singh](https://github.com/VarinderS) - [Kudos Web](http://www.kudosweb.com)
+- [Charith Sooriyaarachchi](https://github.com/charithsoori) - [99X Technology](http://www.99xtechnology.com/)
 
 Would you like to become a hero too? Pick an [issue](https://github.com/Kentico/delivery-sdk-net/issues) and send us a pull request!
